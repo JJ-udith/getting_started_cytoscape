@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+
+    <head>
+        <title>Tutorial 1: Getting Started</title>
+        <script src="cytoscape.min.js"></script>
+        <script src="https://unpkg.com/dagre@0.7.4/dist/dagre.js"></script>
+        <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.5.0/cytoscape-dagre.js"></script>
+    </head>
+    <style>
+        #cy {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
+
+    <body>
+        <div id="cy"></div>
+        <script>
+            var cy = cytoscape( {
+                container: document.getElementById( 'cy' ),
+                boxSelectionEnabled: false,
+                elements: {
+                    nodes: [
+                        { data: { id: 'n1',         name: 'malloc_block_stack', shape: 'rectangle', bordercolor: 'grey' }, position: { x: 215, y: 85 } },
+                        { data: { id: 'n2',         name: 's:stack',            shape: 'rectangle', bordercolor: 'grey', parent: 'n1' } },
+                        { data: { id: 'n3',         name: 'head',               shape: 'ellipse',   bordercolor: 'grey', parent: 'n2' } },
+                        { data: { id: 'n4',         name: 'h',                  shape: 'rectangle', bordercolor: 'grey' } },
+                        { data: { id: 'n5',         name: 'malloc_block_node',  shape: 'rectangle', bordercolor: 'green' } },
+                        { data: { id: 'n6',         name: 'n1:node',            shape: 'rectangle', bordercolor: 'green', parent: 'n5' } },
+                        { data: { id: 'n7',         name: 'value:10',           shape: 'rectangle', bordercolor: 'green', parent: 'n6' } },
+                        { data: { id: 'n8',         name: 'next',               shape: 'ellipse',   bordercolor: 'green', parent: 'n6' } }
+                    ],
+                    edges: [
+                        { data: { id: 'e1', name: 'head', source: 'n3', target: 'n4', color: 'red' } },
+                        { data: { id: 'e2', name: 'next', source: 'n8', target: 'n4', color: 'green' } },
+                        { data: { id: 'e3', name: 'head', source: 'n3', target: 'n5', color: 'green' } }
+                    ]
+                },
+                layout: {
+                    name: 'dagre',
+                },
+                style: [
+                    {
+                        selector: 'node',
+                        css: {
+                            'content': 'data(name)',
+                            'text-valign': 'center',
+                            'text-halign': 'center',
+                            'shape': 'data(shape)',
+                            'border-color': 'data(bordercolor)',
+                            'width': 'label'
+                        }
+                    },
+                    {
+                        selector: ':parent',
+                        css: {
+                            'text-valign': 'top',
+                            'text-halign': 'center',
+                        }
+                    },
+                    {
+                        selector: 'edge',
+                        css: {
+                            'content': 'data(name)',
+                            'text-margin-y': -15,
+                            'curve-style': 'bezier',
+                            'target-arrow-shape': 'triangle',
+                            'line-color': 'data(color)'
+                        }
+                    },
+                ],
+            } );
+        </script>
+    </body>
+
+</html>
